@@ -2,14 +2,11 @@
 using namespace std;
 const int N = 1e5+5;
 int parent[N];
-int sz[N];\
-int cmp, mx;
+int sz[N];
 void dsu_initialize(int n){
-    for(int i=0;i<n;i++){
+    for(int i=1;i<=n;i++){
         parent[i] = -1;
         sz[i] = 1;
-        cmp = n;
-        mx = INT_MIN;
     }
 }
 int dsu_find(int node){
@@ -26,14 +23,11 @@ void union_by_sz(int node1, int node2){
     if(sz[leaderA] > sz[leaderB]){
         parent[leaderB] = leaderA;
         sz[leaderA] += sz[leaderB];
-        mx = max(mx,sz[leaderA]);
     }
     else{
         parent[leaderA] = leaderB;
         sz[leaderB] += sz[leaderA];
-        mx = max(mx,sz[leaderB]);
     }
-    cmp--;
 }
 int main()
 {
@@ -44,7 +38,19 @@ int main()
         int a,b;
         cin>>a>>b;
         union_by_sz(a,b);
-        cout<<cmp<<" "<<mx<<endl;
+    }
+    // for(int i=1;i<=n;i++){
+    //     cout<<i<<" "<<parent[i]<<endl;
+    // }
+    vector<int> leaders;
+    for(int i=1;i<=n;i++){
+        if(parent[i] == -1){
+            leaders.push_back(i);
+        }
+    }
+    cout<<leaders.size()-1<<endl;
+    for(int i=1;i<leaders.size();i++){
+        cout<<leaders[i-1]<<" "<<leaders[i]<<endl;
     }
     return 0;
 }
